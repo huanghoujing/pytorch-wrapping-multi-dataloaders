@@ -27,6 +27,7 @@ class MyIter(object):
   def __len__(self):
     return len(self.my_loader)
 
+  
 class MyLoader(object):
   """This class wraps several pytorch DataLoader objects, allowing each time 
   taking a batch from each of them and then combining these several batches 
@@ -44,6 +45,7 @@ class MyLoader(object):
   def __len__(self):
     return min([len(loader) for loader in self.loaders])
 
+  # Customize the behavior of combining batches here.
   def combine_batch(self, batches):
     return batches
 
@@ -77,7 +79,9 @@ loader3 = DataLoader(
 
 my_loader = MyLoader([loader1, loader2, loader3])
 
+
 def loop_through_loader(loader):
+  """A use case of iterating through a mnist dataloader."""
   for i, b1 in enumerate(loader):
     data, target = b1
     if i in [100, 200]:
@@ -86,6 +90,7 @@ def loop_through_loader(loader):
 
 
 def loop_through_my_loader(loader):
+  """A use case of iterating through my_loader."""
   for i, batches in enumerate(loader):
     if i in [100, 200]:
       for j, b in enumerate(batches):
